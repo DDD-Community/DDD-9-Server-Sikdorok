@@ -113,6 +113,8 @@ class UsersControllerTest extends ControllerTest {
                     fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
                     fieldWithPath("data.isRegistered").type(JsonFieldType.BOOLEAN).description("회원가입 유무"),
                     fieldWithPath("data.usersInfo").type(JsonFieldType.OBJECT).description("유저 정보"),
+                    fieldWithPath("data.usersInfo.oauthType").type(JsonFieldType.STRING).attributes(oauthTypeFormat()).description("oauth 유형"),
+                    fieldWithPath("data.usersInfo.oauthId").type(JsonFieldType.NUMBER).description("oauth 고유번호"),
                     fieldWithPath("data.usersInfo.nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("data.usersInfo.email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("data.usersInfo.isValidEmail").type(JsonFieldType.BOOLEAN).description("이메일 유효성")
@@ -167,6 +169,8 @@ class UsersControllerTest extends ControllerTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 requestFields(
+                    fieldWithPath("oauthType").type(JsonFieldType.STRING).description("닉네임").optional(),
+                    fieldWithPath("oauthId").type(JsonFieldType.NUMBER).description("닉네임").optional(),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),

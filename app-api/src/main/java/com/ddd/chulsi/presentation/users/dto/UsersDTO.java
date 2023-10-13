@@ -40,6 +40,10 @@ public class UsersDTO {
     }
 
     public record Register (
+        DefinedCode oauthType,
+
+        Long oauthId,
+
         @NotBlank
         String nickname,
 
@@ -54,6 +58,8 @@ public class UsersDTO {
         String passwordCheck
     ) {
         public Register {
+            if (oauthType != null && oauthId == null || oauthId != null && oauthType == null)
+                throw new BadRequestException("oauth 정보가 올바르지 않습니다", "oauth");
             if (nickname.length() < 2 || nickname.length() > 10)
                 throw new BadRequestException("이름은 2자 이상, 10자 이하로 입력해주세요", "nickname");
             if (!StringUtil.isEnglishOrNumberOrSpecial(password, 8, 20))
@@ -64,7 +70,7 @@ public class UsersDTO {
                 throw new BadRequestException("입력하신 비밀번호가 일치하지 않습니다", "password, passwordCheck");
         }
         public UsersCommand.RegisterCommand toCommand() {
-            return UsersCommand.RegisterCommand.toCommand(nickname, email, BCryptUtils.hash(password));
+            return UsersCommand.RegisterCommand.toCommand(oauthType, oauthId, nickname, email, BCryptUtils.hash(password));
         }
     }
 

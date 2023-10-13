@@ -1,5 +1,7 @@
 package com.ddd.chulsi.domainCore.model.users;
 
+import com.ddd.chulsi.domainCore.model.shared.DefinedCode;
+
 import java.util.UUID;
 
 public class UsersCommand {
@@ -27,15 +29,19 @@ public class UsersCommand {
     ) { }
 
     public record RegisterCommand (
+        DefinedCode oauthType,
+        Long oauthId,
         String nickname,
         String email,
         String password
     ) {
-        public static RegisterCommand toCommand(String nickname, String email, String password) {
-            return new RegisterCommand(nickname, email, password);
+        public static RegisterCommand toCommand(DefinedCode oauthType, Long oauthId, String nickname, String email, String password) {
+            return new RegisterCommand(oauthType, oauthId, nickname, email, password);
         }
         public Users toEntity() {
             return Users.builder()
+                .oauthType(oauthType)
+                .oauthId(oauthId)
                 .name(nickname)
                 .email(email)
                 .password(password)

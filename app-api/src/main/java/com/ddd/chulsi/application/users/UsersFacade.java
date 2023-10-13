@@ -128,12 +128,14 @@ public class UsersFacade {
     public UsersDTO.KakaoLoginResponse kakaoLogin(UsersCommand.LoginCommand loginCommand, HttpServletResponse response) {
         OauthInfo.KakaoUserMe kakaoUserMe = oauthKakaoService.getUserName(loginCommand.accessToken());
 
+        String nickname = kakaoUserMe.kakaoAccount().kakaoProfile().nickname();
+        String email = kakaoUserMe.kakaoAccount().email();
+        boolean isValidEmail = kakaoUserMe.kakaoAccount().isEmailValid() && kakaoUserMe.kakaoAccount().isEmailVerified();
+        OauthInfo.KakaoUserMeDTO kakaoUserMeDTO = new OauthInfo.KakaoUserMeDTO(DefinedCode.C000200001, kakaoUserMe.id(), nickname, email, isValidEmail);
+
         Users users = usersService.findByOauthTypeAndOauthId(DefinedCode.C000200001, kakaoUserMe.id());
         if (users == null) {
             // 존재하지 않는 회원이면 회원가입 처리를 위해 데이터 Return
-            String nickname = kakaoUserMe.kakaoAccount().kakaoProfile().nickname();
-            String email = kakaoUserMe.kakaoAccount().email();
-            boolean isValidEmail = kakaoUserMe.kakaoAccount().isEmailValid() && kakaoUserMe.kakaoAccount().isEmailVerified();
             boolean isRegistered = false;
 
             // 이메일 중복검사
@@ -145,7 +147,6 @@ public class UsersFacade {
                 }
             }
 
-            OauthInfo.KakaoUserMeDTO kakaoUserMeDTO = new OauthInfo.KakaoUserMeDTO(nickname, email, isValidEmail);
             return new UsersDTO.KakaoLoginResponse<>(isRegistered, kakaoUserMeDTO);
         }
 

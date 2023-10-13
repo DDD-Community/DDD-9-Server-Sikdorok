@@ -40,7 +40,7 @@ public class UsersFactory {
     }
 
     public static UsersDTO.KakaoLoginResponse<OauthInfo.KakaoUserMeDTO> givenKakaoLoginNeedSignUpResponse() {
-        OauthInfo.KakaoUserMeDTO kakaoUserMeDTO = new OauthInfo.KakaoUserMeDTO("닉네임", "team.sikdorok@gmail.com", true);
+        OauthInfo.KakaoUserMeDTO kakaoUserMeDTO = new OauthInfo.KakaoUserMeDTO(DefinedCode.C000200001, 1_123_123L, "닉네임", "team.sikdorok@gmail.com", true);
         return new UsersDTO.KakaoLoginResponse<>(false, kakaoUserMeDTO);
     }
 
@@ -53,6 +53,8 @@ public class UsersFactory {
 
     public static UsersDTO.Register givenRegisterRequest() {
         return new UsersDTO.Register(
+            DefinedCode.C000200001,
+            1_123_123L,
             "닉네임",
             "team.sikdorok@gmail.com",
             "qwer1234!",

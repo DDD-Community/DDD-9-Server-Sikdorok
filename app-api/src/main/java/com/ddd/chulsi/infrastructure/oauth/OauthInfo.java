@@ -1,5 +1,6 @@
 package com.ddd.chulsi.infrastructure.oauth;
 
+import com.ddd.chulsi.domainCore.model.shared.DefinedCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OauthInfo {
@@ -58,8 +59,10 @@ public class OauthInfo {
     }
 
     public record KakaoUserMeDTO (
-       String nickname,
-       String email,
-       boolean isValidEmail
+        DefinedCode oauthType,
+        long oauthId,
+        String nickname,
+        String email,
+        boolean isValidEmail
     ) {}
 }
